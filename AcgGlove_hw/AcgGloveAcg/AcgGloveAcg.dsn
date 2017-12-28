@@ -1,0 +1,232 @@
+(pcb D:\Nute\PresentTime\AcgGlove\AcgGlove_hw\AcgGloveAcg\AcgGloveAcg.dsn
+  (parser
+    (string_quote ")
+    (space_in_quoted_tokens on)
+    (host_cad "KiCad's Pcbnew")
+    (host_version "(2017-09-19 revision dddaa7e69)-makepkg")
+  )
+  (resolution um 10)
+  (unit um)
+  (structure
+    (layer F.Cu
+      (type signal)
+      (property
+        (index 0)
+      )
+    )
+    (layer B.Cu
+      (type signal)
+      (property
+        (index 1)
+      )
+    )
+    (boundary
+      (path pcb 0  132300 -81500  122500 -81500  122500 -63500  132300 -63500
+            132300 -81500)
+    )
+    (via "Via[0-1]_700:300_um")
+    (rule
+      (width 200)
+      (clearance 200.1)
+      (clearance 200.1 (type default_smd))
+      (clearance 50 (type smd_smd))
+    )
+  )
+  (placement
+    (component Capacitors:CAP_0603
+      (place C1 129900 -72900 front 180 (PN 0.1u))
+    )
+    (component Capacitors:CAP_0603::1
+      (place C2 129600 -65100 front 180 (PN 0.1u))
+    )
+    (component LGA:14_3x2d5_p0d5
+      (place DD1 129800 -69000 front 90 (PN LSM6DS3))
+    )
+    (component "Connectors:WB-08(MW-8M)"
+      (place XL1 125200 -72500 front 90 (PN CONN_8))
+    )
+    (component Connectors:SLD_2_2D5
+      (place XL2 129900 -79900 front 0 (PN CONN_2))
+    )
+  )
+  (library
+    (image Capacitors:CAP_0603
+      (outline (path signal 150  -1500 -800  -1500 0))
+      (outline (path signal 150  1500 -800  -1500 -800))
+      (outline (path signal 150  1500 800  1500 -800))
+      (outline (path signal 150  -1500 800  1500 800))
+      (outline (path signal 150  -1500 0  -1500 800))
+      (pin Rect[T]Pad_889x1016_um 2 762 0)
+      (pin Rect[T]Pad_889x1016_um 1 -762 0)
+    )
+    (image Capacitors:CAP_0603::1
+      (outline (path signal 150  -1500 0  -1500 800))
+      (outline (path signal 150  -1500 800  1500 800))
+      (outline (path signal 150  1500 800  1500 -800))
+      (outline (path signal 150  1500 -800  -1500 -800))
+      (outline (path signal 150  -1500 -800  -1500 0))
+      (pin Rect[T]Pad_889x1016_um 1 -762 0)
+      (pin Rect[T]Pad_889x1016_um 2 762 0)
+    )
+    (image LGA:14_3x2d5_p0d5
+      (outline (path signal 150  -1500 -1250  -1500 1250))
+      (outline (path signal 150  1500 -1250  -1500 -1250))
+      (outline (path signal 150  1500 1250  1500 -1250))
+      (outline (path signal 150  -1500 1250  1500 1250))
+      (outline (path signal 150  -1100 1250  -1450 1100))
+      (outline (path signal 150  -1500 900  -1100 1250))
+      (outline (path signal 150  -1500 750  -1000 1250))
+      (pin Rect[T]Pad_1200x250_um (rotate 90) 14 -500 1250)
+      (pin Rect[T]Pad_1200x250_um (rotate 90) 13 0 1250)
+      (pin Rect[T]Pad_1200x250_um (rotate 90) 12 500 1250)
+      (pin Rect[T]Pad_1200x250_um 11 1500 750)
+      (pin Rect[T]Pad_1200x250_um 10 1500 250)
+      (pin Rect[T]Pad_1200x250_um 9 1500 -250)
+      (pin Rect[T]Pad_1200x250_um 8 1500 -750)
+      (pin Rect[T]Pad_1200x250_um (rotate 90) 7 500 -1250)
+      (pin Rect[T]Pad_1200x250_um (rotate 90) 6 0 -1250)
+      (pin Rect[T]Pad_1200x250_um (rotate 90) 5 -500 -1250)
+      (pin Rect[T]Pad_1200x250_um 4 -1500 -750)
+      (pin Rect[T]Pad_1200x250_um 3 -1500 -250)
+      (pin Rect[T]Pad_1200x250_um 2 -1500 250)
+      (pin Rect[T]Pad_1200x250_um 1 -1500 750)
+    )
+    (image "Connectors:WB-08(MW-8M)"
+      (outline (path signal 150  -3000 -2000  -3000 -1500))
+      (outline (path signal 150  -3000 -1500  3000 -1500))
+      (outline (path signal 150  3000 -1500  3000 -2000))
+      (outline (path signal 150  -9000 2750  9000 2750))
+      (outline (path signal 150  -9000 -2000  9000 -2000))
+      (outline (path signal 150  -9000 250  -8750 250))
+      (outline (path signal 150  -8750 250  -8750 -250))
+      (outline (path signal 150  -8750 -250  -9000 -250))
+      (outline (path signal 150  9000 250  8750 250))
+      (outline (path signal 150  8750 250  8750 -250))
+      (outline (path signal 150  8750 -250  9000 -250))
+      (outline (path signal 150  -9000 0  -9000 -2000))
+      (outline (path signal 150  9000 -2000  9000 0))
+      (outline (path signal 150  9000 0  9000 2750))
+      (outline (path signal 150  -9000 2750  -9000 0))
+      (pin Round[A]Pad_1500_um 8 7000 0)
+      (pin Round[A]Pad_1500_um 7 5000 0)
+      (pin Round[A]Pad_1500_um 6 3000 0)
+      (pin Round[A]Pad_1500_um 5 1000 0)
+      (pin Rect[A]Pad_1500x1500_um 1 -7000 0)
+      (pin Round[A]Pad_1500_um 2 -5000 0)
+      (pin Round[A]Pad_1500_um 3 -3000 0)
+      (pin Round[A]Pad_1500_um 4 -1000 0)
+    )
+    (image Connectors:SLD_2_2D5
+      (outline (path signal 150  -2250 -1550  -2250 0))
+      (outline (path signal 150  2250 -1550  -2250 -1550))
+      (outline (path signal 150  2250 1550  2250 -1550))
+      (outline (path signal 150  -2250 1550  2250 1550))
+      (outline (path signal 150  -2250 0  -2250 1550))
+      (outline (path signal 150  -2400 -1550  -2250 -1550))
+      (outline (path signal 150  -2400 1550  -2400 -1550))
+      (outline (path signal 150  -2250 1550  -2400 1550))
+      (outline (path signal 150  -2250 -1550  -2250 1550))
+      (outline (path signal 150  2250 -1550  -2250 -1550))
+      (outline (path signal 150  2250 1550  2250 -1550))
+      (outline (path signal 150  -2250 1550  2250 1550))
+      (outline (path signal 150  -2550 1550  -2400 1550))
+      (outline (path signal 150  -2550 -1550  -2550 1550))
+      (outline (path signal 150  -2400 -1550  -2550 -1550))
+      (outline (path signal 150  -2550 -1550  -2250 -1550))
+      (outline (path signal 150  -2550 1550  -2550 -1550))
+      (outline (path signal 150  -2250 1550  -2550 1550))
+      (outline (path signal 150  -2400 -1550  -2400 1550))
+      (pin Rect[A]Pad_1600x2700_um 1 -1250 0)
+      (pin Oval[A]Pad_1600x2700_um 2 1250 0)
+    )
+    (padstack Round[A]Pad_1500_um
+      (shape (circle F.Cu 1500))
+      (shape (circle B.Cu 1500))
+      (attach off)
+    )
+    (padstack Oval[A]Pad_1600x2700_um
+      (shape (path F.Cu 1600  0 -550  0 550))
+      (shape (path B.Cu 1600  0 -550  0 550))
+      (attach off)
+    )
+    (padstack Rect[T]Pad_889x1016_um
+      (shape (rect F.Cu -444.5 -508 444.5 508))
+      (attach off)
+    )
+    (padstack Rect[T]Pad_1200x250_um
+      (shape (rect F.Cu -600 -125 600 125))
+      (attach off)
+    )
+    (padstack Rect[A]Pad_1500x1500_um
+      (shape (rect F.Cu -750 -750 750 750))
+      (shape (rect B.Cu -750 -750 750 750))
+      (attach off)
+    )
+    (padstack Rect[A]Pad_1600x2700_um
+      (shape (rect F.Cu -800 -1350 800 1350))
+      (shape (rect B.Cu -800 -1350 800 1350))
+      (attach off)
+    )
+    (padstack "Via[0-1]_700:300_um"
+      (shape (circle F.Cu 700))
+      (shape (circle B.Cu 700))
+      (attach off)
+    )
+  )
+  (network
+    (net GND
+      (pins C1-2 C2-2 DD1-7 DD1-6 DD1-3 DD1-2 XL1-1 XL2-1)
+    )
+    (net /ACG_PWR
+      (pins C1-1 C2-1 DD1-8 DD1-5 XL1-3)
+    )
+    (net /ACG_MOSI
+      (pins DD1-14 XL1-4)
+    )
+    (net /ACG_SCK
+      (pins DD1-13 XL1-6)
+    )
+    (net /ACG_CS
+      (pins DD1-12 XL1-7)
+    )
+    (net "Net-(DD1-Pad11)"
+      (pins DD1-11)
+    )
+    (net "Net-(DD1-Pad10)"
+      (pins DD1-10)
+    )
+    (net "Net-(DD1-Pad9)"
+      (pins DD1-9)
+    )
+    (net /ACG_INT1
+      (pins DD1-4 XL1-8)
+    )
+    (net /ACG_MISO
+      (pins DD1-1 XL1-5)
+    )
+    (net /VibroOut
+      (pins XL1-2 XL2-2)
+    )
+    (class kicad_default "" /ACG_CS /ACG_INT1 /ACG_MISO /ACG_MOSI /ACG_SCK
+      "Net-(DD1-Pad10)" "Net-(DD1-Pad11)" "Net-(DD1-Pad9)"
+      (circuit
+        (use_via Via[0-1]_700:300_um)
+      )
+      (rule
+        (width 200)
+        (clearance 200.1)
+      )
+    )
+    (class Wide /ACG_PWR /VibroOut GND
+      (circuit
+        (use_via Via[0-1]_700:300_um)
+      )
+      (rule
+        (width 200)
+        (clearance 200.1)
+      )
+    )
+  )
+  (wiring
+  )
+)

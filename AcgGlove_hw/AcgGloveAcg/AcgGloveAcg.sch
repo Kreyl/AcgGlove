@@ -1,0 +1,247 @@
+EESchema Schematic File Version 2
+LIBS:Connectors_kl
+LIBS:pcb_details
+LIBS:power
+LIBS:Sensors
+LIBS:Tittar_kl
+LIBS:AcgGloveAcg-cache
+EELAYER 26 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L PWR_FLAG #FLG01
+U 1 1 5A443268
+P 6700 3250
+F 0 "#FLG01" H 6700 3520 30  0001 C CNN
+F 1 "PWR_FLAG" H 6700 3458 30  0000 C CNN
+F 2 "" H 6700 3250 60  0000 C CNN
+F 3 "" H 6700 3250 60  0000 C CNN
+	1    6700 3250
+	1    0    0    -1  
+$EndComp
+$Comp
+L LSM6DS3 DD1
+U 1 1 5A443270
+P 5550 3150
+F 0 "DD1" H 5900 3650 60  0001 C CNN
+F 1 "LSM6DS3" H 5550 3681 60  0000 C CNN
+F 2 "LGA:14_3x2d5_p0d5" H 5750 3900 60  0001 C CNN
+F 3 "" H 5550 3150 60  0001 C CNN
+F 4 "14" H 6000 3750 60  0001 C CNN "SolderPoints"
+F 5 "124" H 5550 3681 60  0001 C CNN "Price"
+	1    5550 3150
+	1    0    0    -1  
+$EndComp
+NoConn ~ 4800 3450
+Wire Wire Line
+	4300 3350 4800 3350
+Wire Wire Line
+	4800 3100 4300 3100
+Wire Wire Line
+	4300 3000 4800 3000
+Wire Wire Line
+	4300 2800 4800 2800
+Wire Wire Line
+	4300 2900 4800 2900
+$Comp
+L GND #PWR01
+U 1 1 5A443281
+P 5300 4050
+F 0 "#PWR01" H 5390 4030 30  0001 C CNN
+F 1 "GND" H 5300 3970 30  0001 C CNN
+F 2 "" H 5300 4050 60  0001 C CNN
+F 3 "" H 5300 4050 60  0001 C CNN
+	1    5300 4050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5300 3800 5300 4050
+$Comp
+L GND #PWR02
+U 1 1 5A443288
+P 6400 3050
+F 0 "#PWR02" H 6490 3030 30  0001 C CNN
+F 1 "GND" H 6400 2970 30  0001 C CNN
+F 2 "" H 6400 3050 60  0001 C CNN
+F 3 "" H 6400 3050 60  0001 C CNN
+	1    6400 3050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6400 2800 6400 3050
+Wire Wire Line
+	6300 2950 6400 2950
+Wire Wire Line
+	6400 2800 6300 2800
+Connection ~ 6400 2950
+$Comp
+L GND #PWR03
+U 1 1 5A443292
+P 6450 4050
+F 0 "#PWR03" H 6540 4030 30  0001 C CNN
+F 1 "GND" H 6450 3970 30  0001 C CNN
+F 2 "" H 6450 4050 60  0001 C CNN
+F 3 "" H 6450 4050 60  0001 C CNN
+	1    6450 4050
+	1    0    0    -1  
+$EndComp
+$Comp
+L C C1
+U 1 1 5A44329A
+P 6450 3750
+F 0 "C1" H 6350 3650 50  0000 L CNN
+F 1 "0.1u" H 6350 3850 50  0000 L CNN
+F 2 "Capacitors:CAP_0603" V 6550 3600 28  0001 C BNN
+F 3 "" H 6450 3750 60  0001 C CNN
+F 4 "2" H 6450 3750 60  0001 C CNN "SolderPoints"
+F 5 "0.5" H 6450 3750 60  0001 C CNN "Price"
+	1    6450 3750
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6450 3950 6450 4050
+$Comp
+L GND #PWR04
+U 1 1 5A4432A2
+P 6700 4050
+F 0 "#PWR04" H 6790 4030 30  0001 C CNN
+F 1 "GND" H 6700 3970 30  0001 C CNN
+F 2 "" H 6700 4050 60  0001 C CNN
+F 3 "" H 6700 4050 60  0001 C CNN
+	1    6700 4050
+	1    0    0    -1  
+$EndComp
+$Comp
+L C C2
+U 1 1 5A4432AA
+P 6700 3750
+F 0 "C2" H 6600 3650 50  0000 L CNN
+F 1 "0.1u" H 6600 3850 50  0000 L CNN
+F 2 "Capacitors:CAP_0603" V 6800 3600 28  0001 C BNN
+F 3 "" H 6700 3750 60  0001 C CNN
+F 4 "2" H 6700 3750 60  0001 C CNN "SolderPoints"
+F 5 "0.5" H 6700 3750 60  0001 C CNN "Price"
+	1    6700 3750
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6700 3950 6700 4050
+Wire Wire Line
+	5400 3800 5400 3900
+Wire Wire Line
+	5400 3900 5300 3900
+Connection ~ 5300 3900
+Wire Wire Line
+	6300 3450 6450 3450
+Wire Wire Line
+	6450 3350 6450 3550
+Wire Wire Line
+	6300 3350 7200 3350
+Wire Wire Line
+	6700 3250 6700 3550
+Connection ~ 6450 3350
+Connection ~ 6450 3450
+Connection ~ 6700 3350
+Text Label 2950 3000 2    60   ~ 0
+ACG_CS
+Wire Wire Line
+	2950 3000 2400 3000
+Text Label 3000 3400 2    60   ~ 0
+ACG_PWR
+Wire Wire Line
+	3000 3400 2400 3400
+Text Label 2950 3100 2    60   ~ 0
+ACG_SCK
+Text Label 2950 3200 2    60   ~ 0
+ACG_MISO
+Text Label 2950 3300 2    60   ~ 0
+ACG_MOSI
+Wire Wire Line
+	2400 3100 2950 3100
+Wire Wire Line
+	2950 3200 2400 3200
+Wire Wire Line
+	2400 3300 2950 3300
+$Comp
+L GND #PWR05
+U 1 1 5A44B095
+P 2400 3700
+F 0 "#PWR05" H 2490 3680 30  0001 C CNN
+F 1 "GND" H 2400 3620 30  0001 C CNN
+F 2 "" H 2400 3700 60  0001 C CNN
+F 3 "" H 2400 3700 60  0001 C CNN
+	1    2400 3700
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	2400 3600 2400 3700
+$Comp
+L CONN_8 XL1
+U 1 1 5A44B09F
+P 2200 3250
+F 0 "XL1" H 2143 2685 50  0000 C CNN
+F 1 "CONN_8" H 2143 2776 50  0000 C CNN
+F 2 "Connectors:WB-08(MW-8M)" H 2143 2769 60  0001 C CNN
+F 3 "" H 2200 3250 60  0000 C CNN
+F 4 "1.6" H 2200 3250 60  0001 C CNN "Price"
+F 5 "http://www.zip-2002.ru/razyemy/razyemy_pitaniya_nizkovoltnye/59686/wb-08_(mw-8m)_pitch_2.00mm/" H 2200 3250 60  0001 C CNN "URL"
+F 6 "8" H 2200 3250 60  0001 C CNN "SolderPoints"
+	1    2200 3250
+	-1   0    0    1   
+$EndComp
+Text Label 2950 2900 2    60   ~ 0
+ACG_INT1
+Wire Wire Line
+	2950 2900 2400 2900
+Text Label 2950 3500 2    60   ~ 0
+VibroOut
+Wire Wire Line
+	2400 3500 3200 3500
+Text Label 4300 2800 0    60   ~ 0
+ACG_MISO
+Text Label 4300 2900 0    60   ~ 0
+ACG_CS
+Text Label 4300 3000 0    60   ~ 0
+ACG_SCK
+Text Label 4300 3100 0    60   ~ 0
+ACG_MOSI
+Text Label 4300 3350 0    60   ~ 0
+ACG_INT1
+Text Label 7200 3350 2    60   ~ 0
+ACG_PWR
+$Comp
+L CONN_2 XL2
+U 1 1 5A44B20D
+P 3400 3600
+F 0 "XL2" H 3343 3287 40  0000 C CNN
+F 1 "CONN_2" H 3343 3363 40  0000 C CNN
+F 2 "Connectors:SLD_2_2D5" H 3400 3600 60  0001 C CNN
+F 3 "" H 3400 3600 60  0000 C CNN
+	1    3400 3600
+	1    0    0    1   
+$EndComp
+$Comp
+L GND #PWR06
+U 1 1 5A44B2C9
+P 3200 3800
+F 0 "#PWR06" H 3290 3780 30  0001 C CNN
+F 1 "GND" H 3200 3720 30  0001 C CNN
+F 2 "" H 3200 3800 60  0001 C CNN
+F 3 "" H 3200 3800 60  0001 C CNN
+	1    3200 3800
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	3200 3700 3200 3800
+$EndSCHEMATC

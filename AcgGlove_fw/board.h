@@ -33,6 +33,8 @@
 // Battery measurement
 #define BAT_MEAS_PIN    GPIOA, 0
 
+#define LED_PIN         GPIOB, 10, omPushPull
+
 // Acg
 #define ACG_SPI         SPI2
 #define ACG_SCK_PIN     GPIOB, 13, omPushPull, pudNone, AF0

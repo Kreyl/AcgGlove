@@ -10,9 +10,11 @@
 #include "MsgQ.h"
 #include "shell.h"
 #include "uart.h"
+#include "led.h"
 #include "kl_lib.h"
 #include "radio_lvl1.h"
 #include "AcgCollector.h"
+#include "Sequences.h"
 
 #if 1 // ======================== Variables and defines ========================
 // Forever
@@ -23,6 +25,7 @@ void ITask();
 
 static void OnRadioRx();
 
+LedBlinker_t Led {LED_PIN};
 
 #endif
 
@@ -40,10 +43,12 @@ int main(void) {
     Printf("\r%S %S\r", APP_NAME, BUILD_TIME);
     Clk.PrintFreqs();
 
+    Led.Init();
+
     AcgAllInit();
 
-//    if(Radio.Init() == retvOk) LedLink.StartOrRestart(lbsqBlink1s);
-//    else LedLink.StartOrRestart(lbsqFailure);
+    if(Radio.Init() == retvOk) Led.StartOrRestart(lbsqBlink1s);
+    else Led.StartOrRestart(lbsqFailure);
 
     // Adc
 //    PinSetupAnalog(LUM_MEAS_PIN);

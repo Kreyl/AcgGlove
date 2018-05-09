@@ -496,6 +496,8 @@ struct PinInputSetup_t {
     GPIO_TypeDef *PGpio;
     uint16_t Pin;
     PinPullUpDown_t PullUpDown;
+    PinInputSetup_t(GPIO_TypeDef *APGPIO, uint16_t APin, PinPullUpDown_t APullUpDown) :
+        PGpio(APGPIO), Pin(APin), PullUpDown(APullUpDown) {}
 };
 
 struct PwmSetup_t {
@@ -871,6 +873,8 @@ public:
     void Deinit() const { PinSetupAnalog(ISetup.PGpio, ISetup.Pin); }
     bool IsHi() const { return PinIsHi(ISetup.PGpio, ISetup.Pin); }
     PinInput_t(const PinInputSetup_t &ASetup) : ISetup(ASetup) {}
+    PinInput_t(GPIO_TypeDef *APGPIO, uint16_t APin, PinPullUpDown_t APullUpDown) :
+        ISetup(APGPIO, APin, APullUpDown) {}
 };
 
 

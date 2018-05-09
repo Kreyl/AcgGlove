@@ -32,10 +32,37 @@
 
 // Battery measurement
 #define BAT_MEAS_PIN    GPIOA, 0
-#define BAT_MEAS_EN     GPIOA, 1
 
-// LED
-#define LED_PIN         GPIOB, 10, omPushPull
+// Acg
+#define ACG_SPI         SPI2
+#define ACG_SCK_PIN     GPIOB, 13, omPushPull, pudNone, AF0
+#define ACG_MISO_PIN    GPIOB, 14, omPushPull, pudNone, AF0
+#define ACG_MOSI_PIN    GPIOB, 15, omPushPull, pudNone, AF0
+
+#define ACG_INT1        GPIOC, 4
+#define ACG_CS1         GPIOB, 2
+#define ACG_PWR1        GPIOC, 0
+
+#define ACG_INT2        GPIOC, 5
+#define ACG_CS2         GPIOB, 3
+#define ACG_PWR2        GPIOC, 1
+
+#define ACG_INT3        GPIOC, 6
+#define ACG_CS3         GPIOB, 6
+#define ACG_PWR3        GPIOC, 2
+
+#define ACG_INT4        GPIOC, 7
+#define ACG_CS4         GPIOB, 7
+#define ACG_PWR4        GPIOC, 3
+
+#define ACG_INT5        GPIOC, 8
+#define ACG_CS5         GPIOB, 11
+#define ACG_PWR5        GPIOC, 10
+
+#define ACG_INT6        GPIOC, 9
+#define ACG_CS6         GPIOB, 12
+#define ACG_PWR6        GPIOC, 11
+
 
 // UART
 #define UART_GPIO       GPIOA
@@ -96,6 +123,11 @@
 #define I2C1_DMA_TX     STM32_DMA1_STREAM2
 #define I2C1_DMA_RX     STM32_DMA1_STREAM3
 #define I2C1_DMA_CHNL   0 // Dummy
+
+// ==== ACG ====
+#define ACG_DMA_TX       STM32_DMA1_STREAM5
+#define ACG_DMA_RX       STM32_DMA1_STREAM4
+#define ACG_DMA_CHNL     0 // Dummy
 
 #if ADC_REQUIRED
 #define ADC_DMA         STM32_DMA1_STREAM1

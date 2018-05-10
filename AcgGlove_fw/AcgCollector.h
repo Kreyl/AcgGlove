@@ -9,4 +9,4 @@
 
 #include "acg_lsm6ds3.h"
 
-void AcgAllInit();
+uint8_t AcgAllInit();

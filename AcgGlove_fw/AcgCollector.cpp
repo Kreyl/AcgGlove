@@ -22,7 +22,7 @@ Acg_t _Acg6 {ACG_INT6, ACG_CS6, ACG_PWR6, &ISpi};
 Acg_t* Acg[6] = {&_Acg1, &_Acg2, &_Acg3, &_Acg4, &_Acg5, &_Acg6};
 
 
-void AcgAllInit() {
+uint8_t AcgAllInit() {
     PinSetupAlterFunc(ACG_SCK_PIN);
     PinSetupAlterFunc(ACG_MISO_PIN);
     PinSetupAlterFunc(ACG_MOSI_PIN);
@@ -48,7 +48,9 @@ void AcgAllInit() {
     ISpi.Enable();
 #endif
 
-    for(int i=0; i<6; i++) Acg[i]->Init();
+    for(int i=0; i<6; i++) {
+        if(Acg[i]->Init() != retvOk) return retvFail;
+    }
 
 
 #if 0 // ==== DMA ====
@@ -62,7 +64,7 @@ void AcgAllInit() {
 
     // Thread
 //    chThdCreateStatic(waAcgThread, sizeof(waAcgThread), NORMALPRIO, (tfunc_t)AcgThread, NULL);
-
+    return retvOk;
 }
 
 // DMA reception complete

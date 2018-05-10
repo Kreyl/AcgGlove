@@ -45,10 +45,15 @@ int main(void) {
 
     Led.Init();
 
-    AcgAllInit();
+    if(AcgAllInit() != retvOk) {
+        while(true) {
+            Led.StartOrContinue(lbsqFailure1);
+            chThdSleepMilliseconds(999);
+        }
+    }
 
     if(Radio.Init() == retvOk) Led.StartOrRestart(lbsqBlink1s);
-    else Led.StartOrRestart(lbsqFailure);
+    else Led.StartOrRestart(lbsqFailure2);
 
     // Adc
 //    PinSetupAnalog(LUM_MEAS_PIN);

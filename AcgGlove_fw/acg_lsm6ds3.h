@@ -29,7 +29,7 @@ private:
     void IReadViaDMA(uint8_t AAddr, void *ptr, uint32_t Len);
 public:
     AccSpd_t AccSpd;
-    void Init();
+    uint8_t Init();
     void Shutdown();
     Acg_t(GPIO_TypeDef *APGpioIrq, uint16_t APinIrq,
           GPIO_TypeDef *APGpioCs, uint16_t APinCs,

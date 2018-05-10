@@ -12,7 +12,7 @@
 
 //Acg_t Acg;
 
-void Acg_t::Init() {
+uint8_t Acg_t::Init() {
 #if 1 // ==== GPIO ====
     ICs.Init();
     IPwr.Init();
@@ -30,7 +30,7 @@ void Acg_t::Init() {
     IReadReg(0x0F, &b);
     if(b != 0x69) {
         Printf("Wrong Acg WhoAmI: %X\r", b);
-        return;
+        return retvFail;
     }
 
     // FIFO
@@ -58,6 +58,7 @@ void Acg_t::Init() {
 #endif
     IIrq.EnableIrq(IRQ_PRIO_MEDIUM);
     Printf("IMU Init Done\r", b);
+    return retvOk;
 }
 
 void Acg_t::Shutdown() {

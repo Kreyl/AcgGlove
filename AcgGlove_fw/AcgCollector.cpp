@@ -9,6 +9,7 @@
 #include "acg_lsm6ds3_defins.h"
 #include "board.h"
 #include "kl_lib.h"
+#include "MsgQ.h"
 
 Spi_t ISpi {ACG_SPI};
 static thread_reference_t ThdRef = nullptr;
@@ -21,6 +22,23 @@ Acg_t _Acg5 {ACG_INT5, ACG_CS5, ACG_PWR5, &ISpi};
 Acg_t _Acg6 {ACG_INT6, ACG_CS6, ACG_PWR6, &ISpi};
 Acg_t* Acg[6] = {&_Acg1, &_Acg2, &_Acg3, &_Acg4, &_Acg5, &_Acg6};
 
+void AcgIrqHandler(void* p) {
+    Acg_t *pAcg = (Acg_t*)p;
+    pAcg->Read(0x3E, &pAcg->AccSpd, sizeof(AccSpd_t));
+    EvtQMain.SendNowOrExitI(EvtMsg_t(evtIdNewAcgRslt, p));
+}
+
+// DMA reception complete
+extern "C"
+void AcgDmaRxCompIrq(void *p, uint32_t flags) {
+//    Acg[CurIndx]->ICsHi(); XXX
+    // Disable DMA
+    dmaStreamDisable(ACG_DMA_TX);
+    dmaStreamDisable(ACG_DMA_RX);
+    chSysLockFromISR();
+    chThdResumeI(&ThdRef, MSG_OK);
+    chSysUnlockFromISR();
+}
 
 uint8_t AcgAllInit() {
     PinSetupAlterFunc(ACG_SCK_PIN);
@@ -43,15 +61,16 @@ uint8_t AcgAllInit() {
     else if(div > 4)  ClkDiv = sclkDiv8;
     else if(div > 2)  ClkDiv = sclkDiv4;
     ISpi.Setup(boMSB, cpolIdleHigh, cphaSecondEdge, ClkDiv);
-    ISpi.EnableRxDma();
-    ISpi.EnableTxDma();
+//    ISpi.EnableRxDma();
+//    ISpi.EnableTxDma();
     ISpi.Enable();
 #endif
 
-    for(int i=0; i<6; i++) {
+    for(uint8_t i=0; i<6; i++) {
+        Acg[i]->Indx = i;
+        Acg[i]->IHandler = AcgIrqHandler;
         if(Acg[i]->Init() != retvOk) return retvFail;
     }
-
 
 #if 0 // ==== DMA ====
     // Tx
@@ -61,43 +80,5 @@ uint8_t AcgAllInit() {
     dmaStreamAllocate(ACG_DMA_RX, IRQ_PRIO_MEDIUM, AcgDmaRxCompIrq, nullptr);
     dmaStreamSetPeripheral(ACG_DMA_RX, &ACG_SPI->DR);
 #endif
-
-    // Thread
-//    chThdCreateStatic(waAcgThread, sizeof(waAcgThread), NORMALPRIO, (tfunc_t)AcgThread, NULL);
     return retvOk;
 }
-
-// DMA reception complete
-extern "C"
-void AcgDmaRxCompIrq(void *p, uint32_t flags) {
-    Acg_t *pacg = (Acg_t*)p;
-    pacg->ICsHi();
-    // Disable DMA
-    dmaStreamDisable(ACG_DMA_TX);
-    dmaStreamDisable(ACG_DMA_RX);
-    chSysLockFromISR();
-    chThdResumeI(&ThdRef, MSG_OK);
-    chSysUnlockFromISR();
-}
-
-// Thread
-//static THD_WORKING_AREA(waAcgThread, 512);
-//__noreturn
-//static void AcgThread(void *arg) {
-//    chRegSetThreadName("Acg");
-////    Acg.Task();
-//    while(true) {
-//        chThdSleepMilliseconds(999);
-//    }
-//}
-
-//__noreturn
-//void Acg_t::Task() {
-//    while(true) {
-//        chSysLock();
-//        chThdSuspendS(&ThdRef); // Wait IRQ
-//        chSysUnlock();
-////        AccSpd.Print();
-//    }
-//}
-

@@ -19,7 +19,7 @@ uint8_t Acg_t::Init() {
     IPwr.SetHi();
     ICs.SetHi();
     IIrq.Init(ttRising);
-    chThdSleepMilliseconds(18);
+    chThdSleepMilliseconds(1);
 #endif
 
 #if 1 // ==== Registers ====
@@ -79,7 +79,7 @@ void Acg_t::IReadReg(uint8_t AAddr, uint8_t *PValue) {
     ICsHi();
 }
 
-void Acg_t::IRead(uint8_t AAddr, void *ptr, uint8_t Len) {
+void Acg_t::Read(uint8_t AAddr, void *ptr, uint8_t Len) {
     uint8_t *p = (uint8_t*)ptr;
     ICsLo();
     PSpi->ReadWriteByte(AAddr | 0x80);   // Add "Read" bit
@@ -89,7 +89,7 @@ void Acg_t::IRead(uint8_t AAddr, void *ptr, uint8_t Len) {
     ICsHi();
 }
 
-void Acg_t::IReadViaDMA(uint8_t AAddr, void *ptr, uint32_t Len) {
+void Acg_t::ReadViaDMA(uint8_t AAddr, void *ptr, uint32_t Len) {
     AAddr |= 0x80;  // Add "Read" bit
     ICsLo();
     chSysLock();
@@ -106,20 +106,22 @@ void Acg_t::IReadViaDMA(uint8_t AAddr, void *ptr, uint32_t Len) {
     chSysUnlock();
 }
 
-const uint8_t SAddr = 0x3E | 0x80; // Add "Read" bit
+//const uint8_t SAddr = 0x3E | 0x80; // Add "Read" bit
 void Acg_t::IIrqHandler() {
-//    PrintfI("i\r");
-    ICsLo();
-    // RX
-    dmaStreamSetMemory0(ACG_DMA_RX, &AccSpd);
-    dmaStreamSetTransactionSize(ACG_DMA_RX, sizeof(AccSpd_t));
-    dmaStreamSetMode(ACG_DMA_RX, ACG_DMA_RX_MODE);
-    dmaStreamEnable(ACG_DMA_RX);
-    // TX
-    dmaStreamSetMemory0(ACG_DMA_TX, &SAddr);
-    dmaStreamSetTransactionSize(ACG_DMA_TX, sizeof(AccSpd_t));
-    dmaStreamSetMode(ACG_DMA_TX, ACG_DMA_TX_MODE);
-    dmaStreamEnable(ACG_DMA_TX);
+//    PrintfI("i %d\r", Indx);
+    if(IHandler != nullptr) IHandler(this);
+
+//    ICsLo();
+//    // RX
+//    dmaStreamSetMemory0(ACG_DMA_RX, &AccSpd);
+//    dmaStreamSetTransactionSize(ACG_DMA_RX, sizeof(AccSpd_t));
+//    dmaStreamSetMode(ACG_DMA_RX, ACG_DMA_RX_MODE);
+//    dmaStreamEnable(ACG_DMA_RX);
+//    // TX
+//    dmaStreamSetMemory0(ACG_DMA_TX, &SAddr);
+//    dmaStreamSetTransactionSize(ACG_DMA_TX, sizeof(AccSpd_t));
+//    dmaStreamSetMode(ACG_DMA_TX, ACG_DMA_TX_MODE);
+//    dmaStreamEnable(ACG_DMA_TX);
 
 //    chThdResumeI(&ThdRef, MSG_OK);
 }

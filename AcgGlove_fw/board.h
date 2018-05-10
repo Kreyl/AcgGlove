@@ -35,6 +35,8 @@
 
 #define LED_PIN         GPIOB, 10, omPushPull
 
+#define INDIVIDUAL_EXTI_IRQ_REQUIRED    TRUE
+
 // Acg
 #define ACG_SPI         SPI2
 #define ACG_SCK_PIN     GPIOB, 13, omPushPull, pudNone, AF0

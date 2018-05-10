@@ -31,6 +31,7 @@ LedBlinker_t Led {LED_PIN};
 
 int main(void) {
     // ==== Init Clock system ====
+//    Clk.SwitchToHsi48();
     Clk.UpdateFreqValues();
 
     // === Init OS ===
@@ -63,6 +64,9 @@ int main(void) {
     ITask();
 }
 
+static uint8_t AcgMask = 0;
+systime_t st;
+
 __noreturn
 void ITask() {
     while(true) {
@@ -76,6 +80,19 @@ void ITask() {
             case evtIdRadioRx:
                 OnRadioRx();
                 break;
+
+            case evtIdNewAcgRslt: {
+                Acg_t *pAcg = (Acg_t*)Msg.Ptr;
+                AcgMask |= 1 << pAcg->Indx;
+                if(AcgMask == 0b111111) {
+                    AcgMask = 0;
+                    Printf("Acg %u\r", ST2MS(chVTTimeElapsedSinceX(st)));
+                    st = chVTGetSystemTimeX();
+                }
+//                Printf("Acg: %u\r", pAcg->Indx);
+//                pAcg->Read(0x3E, &pAcg->AccSpd, sizeof(AccSpd_t));
+//                pAcg->AccSpd.Print();
+            } break;
 
             case evtIdAdcRslt: {
                 } break;

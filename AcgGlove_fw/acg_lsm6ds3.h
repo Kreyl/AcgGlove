@@ -10,11 +10,19 @@
 #include "kl_lib.h"
 #include "shell.h"
 
-struct AccSpd_t {
-//    uint8_t __dummy;    // DMA will write here when transmitting addr
-    int16_t g[3];
-    int16_t a[3];
+union AccSpd_t {
+    uint32_t DWord[3];
+    struct {
+        int16_t g[3];
+        int16_t a[3];
+    } __packed;
     void Print() { Printf("%d %d %d; %d %d %d\r", a[0],a[1],a[2], g[0],g[1],g[2]); }
+    AccSpd_t& operator = (const AccSpd_t &Right) {
+        DWord[0] = Right.DWord[0];
+        DWord[1] = Right.DWord[1];
+        DWord[2] = Right.DWord[2];
+        return *this;
+    }
 } __packed;
 
 typedef void (*ftVoidUint32)(uint32_t Dw);

@@ -12,7 +12,7 @@
 
 uint8_t cc1101_t::Init() {
     // ==== GPIO ====
-#if defined STM32L1XX || defined STM32F4XX || defined STM32L4XX
+#if defined STM32L1XX || defined STM32F4XX || defined STM32L4XX || defined STM32F2XX
     AlterFunc_t CC_AF;
     if(ISpi.PSpi == SPI1 or ISpi.PSpi == SPI2) CC_AF = AF5;
     else CC_AF = AF6;
@@ -28,7 +28,7 @@ uint8_t cc1101_t::Init() {
     // ==== SPI ====
     // MSB first, master, ClkLowIdle, FirstEdge, Baudrate no more than 6.5MHz
     uint32_t div;
-#if defined STM32L1XX || defined STM32F4XX || defined STM32L4XX
+#if defined STM32L1XX || defined STM32F4XX || defined STM32L4XX || defined STM32F2XX
     if(ISpi.PSpi == SPI1) div = Clk.APB2FreqHz / CC_MAX_BAUDRATE_HZ;
     else div = Clk.APB1FreqHz / CC_MAX_BAUDRATE_HZ;
 #elif defined STM32F030 || defined STM32F0
@@ -134,19 +134,49 @@ void cc1101_t::SetChannel(uint8_t AChannel) {
 //}
 
 void cc1101_t::Transmit(void *Ptr, uint8_t Len) {
+    ICallback = nullptr;
 //     WaitUntilChannelIsBusy();   // If this is not done, time after time FIFO is destroyed
 //    while(IState != CC_STB_IDLE) EnterIdle();
     EnterTX();  // Start transmission of preamble while writing FIFO
-    WriteTX((uint8_t*)Ptr, Len);
-    // Enter TX and wait IRQ
-    chSysLock();
-    chThdSuspendS(&ThdRef); // Wait IRQ
-    chSysUnlock();          // Will be here when IRQ fires
+    if(Len < 64) {
+        WriteTX((uint8_t*)Ptr, Len);
+        // Enter TX and wait IRQ
+        chSysLock();
+        chThdSuspendS(&ThdRef); // Wait IRQ
+        chSysUnlock();          // Will be here when IRQ fires
+    }
+    else {
+        uint8_t *p = (uint8_t*)Ptr;
+        uint8_t BytesToWrite = 63;
+        bool FirstTime = true;
+        while(true) {
+//            Printf("btr %u\r", BytesToWrite);
+            WriteTX(p, BytesToWrite);
+            Len -= BytesToWrite;
+            if(Len == 0) break;
+            if(FirstTime) { // Change IO purpose once
+                WriteRegister(CC_IOCFG0, 0x02); // Asserts when the TX FIFO is filled at or above the TX FIFO threshold. De-asserts when the TX FIFO is below the same threshold.
+                FirstTime = false;
+            }
+            p += BytesToWrite;
+            BytesToWrite = MIN_(Len, 30);
+            // Wait until FIFO below threshold
+            chSysLock();
+            chThdSuspendS(&ThdRef); // Wait IRQ: FIFO is ready for 30 bytes more
+            chSysUnlock();          // Will be here when IRQ fires
+        }
+        // All data sent to FIFO
+        WriteRegister(CC_IOCFG0, CC_IOCFG0_VALUE); // Write IO 0 back
+        // Wait end of packet
+        chSysLock();
+        chThdSuspendS(&ThdRef); // Wait IRQ
+        chSysUnlock();          // Will be here when IRQ fires
+//        Printf("end\r");
+    }
 }
 
 // Enter RX mode and wait reception for Timeout_ms.
 uint8_t cc1101_t::Receive(uint32_t Timeout_ms, void *Ptr, uint8_t Len, int8_t *PRssi) {
-//    Recalibrate();
     FlushRxFIFO();
     chSysLock();
     EnterRX();
@@ -167,6 +197,17 @@ int8_t cc1101_t::RSSI_dBm(uint8_t ARawRSSI) {
     if (RSSI >= 128) RSSI -= 256;
     RSSI = (RSSI / 2) - 74;    // now it is in dBm
     return RSSI;
+}
+
+void cc1101_t::ReceiveAsync(ftVoidVoid Callback) {
+    FlushRxFIFO();
+    ICallback = Callback;
+    EnterRX();
+}
+void cc1101_t::TransmitAsync(void *Ptr, uint8_t Len, ftVoidVoid Callback) {
+    EnterTX(); // Start transmission of preamble
+    WriteTX((uint8_t*)Ptr, Len);
+    ICallback = Callback;
 }
 #endif
 
@@ -227,10 +268,10 @@ uint8_t cc1101_t::ReadFIFO(void *Ptr, int8_t *PRssi, uint8_t Len) {
     uint8_t b, *p = (uint8_t*)Ptr;
      // Check if received successfully
      if(ReadRegister(CC_PKTSTATUS, &b) != retvOk) return retvFail;
-     //    Uart.Printf("St: %X  ", b);
+//     Printf("St: %X  ", b);
      if(b & 0x80) {  // CRC OK
          // Read FIFO
-         CsLo();                // Start transmission
+         CsLo();                    // Start transmission
          if(BusyWait() != retvOk) { // Wait for chip to become ready
              CsHi();
              return retvFail;
@@ -239,7 +280,6 @@ uint8_t cc1101_t::ReadFIFO(void *Ptr, int8_t *PRssi, uint8_t Len) {
          for(uint8_t i=0; i<Len; i++) { // Read bytes
              b = ISpi.ReadWriteByte(0);
              *p++ = b;
-             // Uart.Printf(" %X", b);
          }
          // Receive two additional info bytes
          b = ISpi.ReadWriteByte(0); // RSSI

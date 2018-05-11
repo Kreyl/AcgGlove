@@ -31,7 +31,7 @@ LedBlinker_t Led {LED_PIN};
 
 int main(void) {
     // ==== Init Clock system ====
-//    Clk.SwitchToHsi48();
+    Clk.SwitchToHsi48();
     Clk.UpdateFreqValues();
 
     // === Init OS ===
@@ -56,6 +56,8 @@ int main(void) {
     if(Radio.Init() == retvOk) Led.StartOrRestart(lbsqBlink1s);
     else Led.StartOrRestart(lbsqFailure2);
 
+    Printf("PktLen: %u\r", RPKTACG_LEN);
+
     // Adc
 //    PinSetupAnalog(LUM_MEAS_PIN);
 //    Adc.Init();
@@ -65,7 +67,7 @@ int main(void) {
 }
 
 static uint8_t AcgMask = 0;
-systime_t st;
+//systime_t st;
 
 __noreturn
 void ITask() {
@@ -86,12 +88,10 @@ void ITask() {
                 AcgMask |= 1 << pAcg->Indx;
                 if(AcgMask == 0b111111) {
                     AcgMask = 0;
-                    Printf("Acg %u\r", ST2MS(chVTTimeElapsedSinceX(st)));
-                    st = chVTGetSystemTimeX();
+//                    Printf("Acg %u\r", ST2MS(chVTTimeElapsedSinceX(st)));
+//                    st = chVTGetSystemTimeX();
                 }
-//                Printf("Acg: %u\r", pAcg->Indx);
-//                pAcg->Read(0x3E, &pAcg->AccSpd, sizeof(AccSpd_t));
-//                pAcg->AccSpd.Print();
+//                if(pAcg->Indx == 5) pAcg->AccSpd.Print();
             } break;
 
             case evtIdAdcRslt: {

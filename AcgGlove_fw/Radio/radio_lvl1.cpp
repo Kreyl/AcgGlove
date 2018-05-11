@@ -13,11 +13,11 @@
 
 cc1101_t CC(CC_Setup0);
 
-//#define DBG_PINS
+#define DBG_PINS
 
 #ifdef DBG_PINS
 #define DBG_GPIO1   GPIOB
-#define DBG_PIN1    0
+#define DBG_PIN1    9
 #define DBG1_SET()  PinSetHi(DBG_GPIO1, DBG_PIN1)
 #define DBG1_CLR()  PinSetLo(DBG_GPIO1, DBG_PIN1)
 //#define DBG_GPIO2   GPIOB
@@ -30,7 +30,7 @@ cc1101_t CC(CC_Setup0);
 #endif
 
 rLevel1_t Radio;
-uint8_t OnRadioRx();
+//uint8_t OnRadioRx();
 
 #if 1 // ================================ Task =================================
 static THD_WORKING_AREA(warLvl1Thread, 256);
@@ -42,19 +42,25 @@ static void rLvl1Thread(void *arg) {
 
 __noreturn
 void rLevel1_t::ITask() {
-    PktReply.Length = 2;
-    PktReply.Reply = retvOk;
+//    PktReply.Length = 2;
+//    PktReply.Reply = retvOk;
+    rPktAcg_t PktTx;
+    PktTx.Length = RPKTACG_LEN - 1;
     while(true) {
+        chThdSleepMilliseconds(45);
         CC.Recalibrate();
-        uint8_t RxRslt = CC.Receive(36, &PktRx, 8, &Rssi);
-        if(RxRslt == retvOk) {
-//            Printf("Rssi=%d\r", Rssi);
-//            PktRx.Print();
-            // Transmit reply
-            CC.Transmit(&PktReply, PktReply.Length+1);
-            EvtMsg_t Msg(evtIdRadioRx, &PktRx);
-            EvtQMain.SendNowOrExit(Msg);
-        } // if RxRslt ok
+        DBG1_SET();
+        CC.Transmit(&PktTx, RPKTACG_LEN);
+        DBG1_CLR();
+//        uint8_t RxRslt = CC.Receive(36, &PktRx, 8, &Rssi);
+//        if(RxRslt == retvOk) {
+////            Printf("Rssi=%d\r", Rssi);
+////            PktRx.Print();
+//            // Transmit reply
+//            CC.Transmit(&PktReply, PktReply.Length+1);
+//            EvtMsg_t Msg(evtIdRadioRx, &PktRx);
+//            EvtQMain.SendNowOrExit(Msg);
+//        } // if RxRslt ok
     } // while
 }
 #endif // task
@@ -68,9 +74,8 @@ uint8_t rLevel1_t::Init() {
 
     if(CC.Init() == retvOk) {
         CC.SetTxPower(CC_TX_PWR);
-        CC.SetPktSize(RPKT_LEN+1);
+        CC.SetPktSize(RPKTACG_LEN); // Max sz
 //        CC.SetChannel(Settings.RChnl);
-        CC.Recalibrate();
         // Thread
         chThdCreateStatic(warLvl1Thread, sizeof(warLvl1Thread), HIGHPRIO, (tfunc_t)rLvl1Thread, NULL);
         return retvOk;

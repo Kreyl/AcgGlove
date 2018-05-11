@@ -14,6 +14,8 @@
 #include "shell.h"
 #include "MsgQ.h"
 
+#include "acg_lsm6ds3.h"
+
 #if 0 // ========================= Signal levels ===============================
 // Python translation for db
 #define RX_LVL_TOP      1000
@@ -58,24 +60,22 @@ static inline void Lvl250ToLvl1000(uint16_t *PLvl) {
 #define CC_TX_PWR   CC_PwrPlus5dBm
 
 #if 1 // =========================== Pkt_t =====================================
-union rPkt_t  {
-    uint32_t DWord[2];
-    struct {
-        uint8_t Length;
-        int8_t Ch[4];
-        uint8_t R1, R2;
-        uint8_t Btns;
-    } __packed;
-    rPkt_t& operator = (const rPkt_t &Right) {
-        DWord[0] = Right.DWord[0];
-        DWord[1] = Right.DWord[1];
+struct rPktAcg_t  {
+    uint8_t Length;
+    AccSpd_t Acg[6];
+    rPktAcg_t& operator = (const rPktAcg_t &Right) {
+        Length = Right.Length;
+        Acg[0] = Right.Acg[0];
+        Acg[1] = Right.Acg[1];
+        Acg[2] = Right.Acg[2];
+        Acg[3] = Right.Acg[3];
+        Acg[4] = Right.Acg[4];
+        Acg[5] = Right.Acg[5];
         return *this;
     }
-    void Print() { Printf("%d %d %d %d %d %d; %X\r", Ch[0],Ch[1],Ch[2],Ch[3],R1, R2, Btns); }
 } __packed;
 
-#define RPKT_LEN    7   // 7 bytes of payload
-
+#define RPKTACG_LEN    sizeof(rPktAcg_t)
 struct rPktReply_t {
     uint8_t Length;
     uint8_t Reply;
@@ -111,7 +111,7 @@ private:
 
 public:
     int8_t Rssi;
-    rPkt_t PktRx;
+//    rPkt_t PktRx;
     rPktReply_t PktReply;
     uint8_t Init();
     void SetChannel(uint8_t NewChannel);

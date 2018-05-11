@@ -53,10 +53,10 @@ int main(void) {
         }
     }
 
-    if(Radio.Init() == retvOk) Led.StartOrRestart(lbsqBlink1s);
+    if(Radio.Init() == retvOk) Led.StartOrRestart(lbsqOn);
     else Led.StartOrRestart(lbsqFailure2);
 
-    Printf("PktLen: %u\r", RPKTACG_LEN);
+//    Printf("PktLen: %u\r", RPKTACG_LEN);
 
     // Adc
 //    PinSetupAnalog(LUM_MEAS_PIN);
@@ -85,10 +85,12 @@ void ITask() {
 
             case evtIdNewAcgRslt: {
                 Acg_t *pAcg = (Acg_t*)Msg.Ptr;
+                Radio.PktTx.Acg[pAcg->Indx] = pAcg->AccSpd; // Place data to pkt
                 AcgMask |= 1 << pAcg->Indx;
                 if(AcgMask == 0b111111) {
                     AcgMask = 0;
-//                    Printf("Acg %u\r", ST2MS(chVTTimeElapsedSinceX(st)));
+                    EvtQRadio.SendNowOrExit(EvtMsg_t(evtIdNewAcgRslt));
+//                    Printf("Acg\r");// %u\r", ST2MS(chVTTimeElapsedSinceX(st)));
 //                    st = chVTGetSystemTimeX();
                 }
 //                if(pAcg->Indx == 5) pAcg->AccSpd.Print();

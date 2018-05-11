@@ -31,6 +31,7 @@ cc1101_t CC(CC_Setup0);
 
 rLevel1_t Radio;
 //uint8_t OnRadioRx();
+EvtMsgQ_t<EvtMsg_t, MAIN_EVT_Q_LEN> EvtQRadio;
 
 #if 1 // ================================ Task =================================
 static THD_WORKING_AREA(warLvl1Thread, 256);
@@ -42,16 +43,19 @@ static void rLvl1Thread(void *arg) {
 
 __noreturn
 void rLevel1_t::ITask() {
-//    PktReply.Length = 2;
-//    PktReply.Reply = retvOk;
-    rPktAcg_t PktTx;
     PktTx.Length = RPKTACG_LEN - 1;
     while(true) {
-        chThdSleepMilliseconds(45);
-        CC.Recalibrate();
-        DBG1_SET();
-        CC.Transmit(&PktTx, RPKTACG_LEN);
-        DBG1_CLR();
+        EvtMsg_t Msg = EvtQRadio.Fetch(TIME_INFINITE);
+        switch(Msg.ID) {
+            case evtIdNewAcgRslt:
+                CC.Recalibrate();
+                DBG1_SET();
+                CC.Transmit(&PktTx, RPKTACG_LEN);
+                DBG1_CLR();
+                break;
+
+            default: break;
+        }
 //        uint8_t RxRslt = CC.Receive(36, &PktRx, 8, &Rssi);
 //        if(RxRslt == retvOk) {
 ////            Printf("Rssi=%d\r", Rssi);
@@ -72,12 +76,14 @@ uint8_t rLevel1_t::Init() {
 //    PinSetupOut(DBG_GPIO2, DBG_PIN2, omPushPull);
 #endif    // Init radioIC
 
+    EvtQRadio.Init();
+
     if(CC.Init() == retvOk) {
         CC.SetTxPower(CC_TX_PWR);
         CC.SetPktSize(RPKTACG_LEN); // Max sz
 //        CC.SetChannel(Settings.RChnl);
         // Thread
-        chThdCreateStatic(warLvl1Thread, sizeof(warLvl1Thread), HIGHPRIO, (tfunc_t)rLvl1Thread, NULL);
+        chThdCreateStatic(warLvl1Thread, sizeof(warLvl1Thread), NORMALPRIO, (tfunc_t)rLvl1Thread, NULL);
         return retvOk;
     }
     else return retvFail;

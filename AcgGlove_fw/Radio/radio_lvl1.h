@@ -111,8 +111,9 @@ private:
 
 public:
     int8_t Rssi;
+    rPktAcg_t PktTx;
 //    rPkt_t PktRx;
-    rPktReply_t PktReply;
+//    rPktReply_t PktReply;
     uint8_t Init();
     void SetChannel(uint8_t NewChannel);
     // Inner use
@@ -120,3 +121,4 @@ public:
 };
 
 extern rLevel1_t Radio;
+extern EvtMsgQ_t<EvtMsg_t, MAIN_EVT_Q_LEN> EvtQRadio;

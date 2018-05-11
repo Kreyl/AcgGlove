@@ -242,6 +242,11 @@ const BaseChunk_t lbsqBlink1s[] = {
         {csEnd}
 };
 
+const BaseChunk_t lbsqOn[] = {
+        {csSetup, 1},
+        {csEnd}
+};
+
 const BaseChunk_t lbsqFailure1[] = {
         {csSetup, 1},
         {csWait, 720},

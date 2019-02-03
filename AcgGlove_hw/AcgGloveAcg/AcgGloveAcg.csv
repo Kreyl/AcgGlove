@@ -1,0 +1,5 @@
+Reference, Quantity, Value, Footprint, Datasheet, Price, SolderPoints, URL
+C1 C2 ,2,"0.1u","Capacitors:CAP_0603","","0.5","2",""
+DD1 ,1,"LSM6DS3","LGA:14_3x2d5_p0d5","","124","14",""
+XL1 ,1,"CONN_8","Connectors:WB-08(MW-8M)","","1.6","8","http://www.zip-2002.ru/razyemy/razyemy_pitaniya_nizkovoltnye/59686/wb-08_(mw-8m)_pitch_2.00mm/"
+XL2 ,1,"CONN_2","Connectors:SLD_2_2D5",""

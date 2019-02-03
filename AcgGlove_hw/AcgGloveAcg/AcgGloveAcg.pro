@@ -1,6 +1,6 @@
-update=28.12.2017 1:50:05
+update=21.12.2018 10:47:41
 version=1
-last_client=eeschema
+last_client=kicad
 [general]
 version=1
 RootSch=
@@ -29,10 +29,4 @@ version=1
 NetIExt=net
 [eeschema]
 version=1
-LibDir=D:/Libs/Kicad
-[eeschema/libraries]
-LibName1=Connectors_kl
-LibName2=pcb_details
-LibName3=power
-LibName4=Sensors
-LibName5=Tittar_kl
+LibDir=

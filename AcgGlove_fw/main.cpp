@@ -41,7 +41,7 @@ int main(void) {
     // ==== Init hardware ====
     EvtQMain.Init();
     Uart.Init(115200);
-    Printf("\r%S %S\r", APP_NAME, BUILD_TIME);
+    Printf("\r%S %S\r", APP_NAME, XSTRINGIFY(BUILD_TIME));
     Clk.PrintFreqs();
 
     Led.Init();

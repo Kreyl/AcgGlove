@@ -66,11 +66,16 @@ uint8_t AcgAllInit() {
     ISpi.Enable();
 #endif
 
+    bool IsOk = true;
     for(uint8_t i=0; i<6; i++) {
         Acg[i]->Indx = i;
         Acg[i]->IHandler = AcgIrqHandler;
-        if(Acg[i]->Init() != retvOk) return retvFail;
+        if(Acg[i]->Init() != retvOk) {
+            Printf("Acg %u Init Fail\r\n", i);
+            IsOk = false;
+        }
     }
+    if(!IsOk) return retvFail;
 
 #if 0 // ==== DMA ====
     // Tx

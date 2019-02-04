@@ -19,7 +19,7 @@ uint8_t Acg_t::Init() {
     IPwr.SetHi();
     ICs.SetHi();
     IIrq.Init(ttRising);
-    chThdSleepMilliseconds(1);
+    chThdSleepMilliseconds(18);
 #endif
 
 #if 1 // ==== Registers ====

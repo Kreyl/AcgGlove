@@ -14,11 +14,11 @@
 #include <sys/cdefs.h>
 #include "EvtMsgIDs.h"
 
-/*
-Build time:
-Define symbol BUILD_TIME in main.cpp options with value "\"${current_date}\"".
-Maybe, to calm Eclipse, it will be required to write extra quote in the end: "\"${current_date}\"""
-*/
+// ==== Build time ====
+// Define symbol BUILD_TIME in main.cpp options with value ${current_date}.
+// Printf("\r%S %S\r", APP_NAME, XSTRINGIFY(BUILD_TIME));
+#define STRINGIFY(x)    # x
+#define XSTRINGIFY(x)   STRINGIFY(x)
 
 #if defined STM32L1XX
 #include "stm32l1xx.h"
